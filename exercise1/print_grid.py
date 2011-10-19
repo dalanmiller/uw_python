@@ -1,5 +1,5 @@
 """
-Dan's Solution - 10/15/2011
+Daniel Miller's Solution - 10/15/2011
 
 input:
 
