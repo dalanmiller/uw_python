@@ -1,6 +1,16 @@
 """
 Daniel Miller's Excercise 2
 
+Usage: 
+
+One can import concordance.py or can also call it via the command line and use a string and paths to file names as arguments. 
+
+"import concordance.py"
+
+"$ python concordance.py "a_string" ~/input.txt ~/output.txt" 
+
+===
+
 Assignment due week 3, Tues Oct 25, bring exercise to turn in (hardcopy)
 
  Required: Ch. 8, 9, 14
@@ -17,38 +27,33 @@ Assignment due week 3, Tues Oct 25, bring exercise to turn in (hardcopy)
   concordance.py that also opens the input and output files, calls the function,
   and closes the files.
 
-Method/Attribute	Purpose
-match()	    Determine if the RE matches at the beginning of the string.
-search()	Scan through a string, looking for any location where this RE matches.
-findall()	Find all substrings where the RE matches, and returns them as a list.
-finditer()	Find all substrings where the RE matches, and returns them as an iterator.
-
-
 """
-from re import search
+
+from re import search,compile
 from sys import argv 
 
 def concordance( s, r, w  ):  #string, read object, write object
     """
     This function takes a string, an open read object, and an open write object.
-    It then reads through every line of the read object and if a match is found with the provided string
-    will write the line number where the matched string was found in the read object and the contents of that line into the write object
+    It then reads through every line of the read object and if a match is found with the provided string will write the line number where the matched string was found in the read object and the contents of that line into the write object.
     """
+    
+    query = compile(s)
     i = 0
-    total = 0   
+    total = 0
     if (not r or not w): #Checking that the objects are legitimate
         print "Read or write objects broken, please fix" 
     for line in r:
-        if search(s,line): #If the compiled search string s is found in the line. 
-            print "Line %s: %s" % [i,line]            
-            #w.write("Line %s: %s" % [i,line])
+        if search(query,line): #If the compiled search string s is found in the line.            
+            content = u"Line %s: %s" % (i,line)
+            w.writelines(content)
             total += 1 
         i+=1
-        
-    print "Total lines written to output file: %s" % [total] s
+    print "Total lines/matches written to output file: %s" % (total) 
 
-    r.close(); w.close() #Close the file objects
-
+    #Close the file objects
+    r.close()
+    w.close() 
 
 if __name__ == "__main__": 
     try:
