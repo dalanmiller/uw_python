@@ -39,16 +39,16 @@ def concordance( s, r, w  ):  #string, read object, write object
     """
     
     query = compile(s)
-    i = 0
+    
     total = 0
     if (not r or not w): #Checking that the objects are legitimate
         print "Read or write objects broken, please fix" 
-    for line in r:
+    for i, line in enumerate(r):
         if search(query,line): #If the compiled search string s is found in the line.            
             content = u"Line %s: %s" % (i,line)
             w.writelines(content)
             total += 1 
-        i+=1
+        
     print "Total lines/matches written to output file: %s" % (total) 
 
     #Close the file objects
