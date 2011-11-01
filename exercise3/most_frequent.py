@@ -26,14 +26,15 @@ from sys import argv
 
 def most_frequent(s):
     """ Function takes a string and prints a list of the characters that make up that string in decreasing order. """   
-    if (type(s) != str): print "Please verify that the variable is a string"
-    
-    d = dict()
-    for c in s:
-        d[c] = d.get(c,0)+1
+    if (isinstance(s, str) == False): 
+        print "Please verify that the variable is a string and try again"
+    else:    
+        d = dict()
+        for c in s:
+            d[c] = d.get(c,0)+1
 
-    for x in sorted(d.items(), key=lambda (k,v) : (v,k), reverse=True):
-        print "%s: %s" % (x[0], x[1]) 
+        for x in sorted(d.items(), key=lambda (k,v) : (v,k), reverse=True):
+            print "%s: %s" % (x[0], x[1]) 
 
 
 if __name__ == "__main__":
