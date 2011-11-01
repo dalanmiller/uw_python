@@ -1,5 +1,15 @@
 """
-Daniel Miller's Solution
+Daniel Miller's Exercise 3 
+
+Usage:
+
+User can import the module and use most_frequent(s), where s is a string or the module can be called from the terminal by providing a string as argv[1] or they will be prompted for a string if one is not provided. 
+
+'import most_frequent'
+
+'$ python most_frequent.py 'hallehuah''
+
+'$ python most_frequent.py'
 
 
 ===
@@ -15,6 +25,7 @@ Assignment due week 4, Tues Nov 1, bring exercise to turn in (hardcopy)
 from sys import argv 
 
 def most_frequent(s):
+    """ Function takes a string and prints a list of the characters that make up that string in decreasing order. """   
     if (type(s) != str): print "Please verify that the variable is a string"
     
     d = dict()
