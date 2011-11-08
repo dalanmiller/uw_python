@@ -22,9 +22,9 @@ I tried to decrease the amount of lines use and simply use 'return list(l).sort(
 
 def sorted_list(l):
     """Takes a list and creates a copy of it. Then sorts the list and then returns a copy of the helper list"""
-    new_l = list(l)
-    new_l.sort()
-    return list(new_l)
+    new_l = list(l) #The simplest way to copy a list, and arguably the most "pythonic"
+    new_l.sort() #Can't add this into the return system for some reason.
+    return list(new_l) #Makes a copy of a helper list just in case. This probably isn't necessary.
 
 
 
