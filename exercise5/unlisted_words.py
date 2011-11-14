@@ -4,13 +4,6 @@ Daniel Miller's Solution Exercise 5
 
 
 ===
-Assignment for week 6, Tues Nov 15, bring exercise to turn in (hardcopy)
-
- Required reading: textbook chapters 15, 16, 17, 18
- http://www.greenteapress.com/thinkpython/html/book016.html
- http://www.greenteapress.com/thinkpython/html/book017.html
- http://www.greenteapress.com/thinkpython/html/book018.html
- http://www.greenteapress.com/thinkpython/html/book019.html
 
 Write a function unlisted_words that takes two string arguments, a
 sample string and a reference string, and returns a list of all the
@@ -34,19 +27,18 @@ reference and sample strings yourself, or you may use these:
  reference: http://staff.washington.edu/jon/uw_python/fall_2011/words
 
 """
-import string, re
-
+import string
 
 def unlisted_words(sample, reference): 
     s = (sample.translate(string.maketrans("",""),string.punctuation)).lower().split()
     r = (reference.translate(string.maketrans("",""),string.punctuation)).lower().split()
-
-    for w in s:
-        if s.__contains__(w)
-
-    return #list of all the words that appear in the sample string that do not appear in the reference string.
+    return list(set([w for w in s if r.__contains__(w) == False]))  #list of all the words that appear in the sample string that do not appear in the reference string.
     
+if __name__ == "__main__":
+    test_sample = "For the past 33 years, I have looked in the mirror every morning and asked myself: 'If today were the last day of my life, would I want to do what I am about to do today?' And whenever the answer has been 'No' for too many days in a row, I know I need to change something. -Steve Jobs"
+    test_ref = "mirror steve today no 33"
 
+    print unlisted_words(test_sample, test_ref)
 
 
 
