@@ -34,7 +34,19 @@ Hints and reminders:
  Use class attributes for data common to all instances of a class
  Instance attributes can be lists, you can have lists of objects
  Turn in what you have on Nov 22, even if it is not finished
+
+
+#def atomCheck(self, other):
+#    Helper method to check that the given atom is an instance of Atom
+#    and also that it is also not 'this' Atom.
+#    
+#    if isinstance(other,Atom) and self.id != other.id: return True
+#    else: return False 
+  
+
 """
+import sys, inspect
+
 
 class Atom(object):
     """This is a class outlining the attributes of an atom"""
@@ -57,15 +69,18 @@ class Atom(object):
 
         self.id = id(self)
 
-    #def atomCheck(self, other):
-    #    """Helper method to check that the given atom is an instance of Atom
-    #    and also that it is also not 'this' Atom.
-    #    """
-    #    if isinstance(other,Atom) and self.id != other.id: return True
-    #    else: return False 
-  
+ 
     def __str__(self):
-        return "%s - %s is bonded to %s" % (self.atomic_number, self.chemical_symbol,[x.get_symbol for x in self.bonds])
+        """Prints out the attributes of the Atom and the attributes of the other Atoms that it is bonded to"""
+        bonded = []
+        for name, obj in inspect.getmembers(sys.modules[__name__]):
+            if isinstance(obj, Atom) and obj.id in self.bonds:
+                bonded.append({'name':name,'atomic':obj.atomic_number,'symbol':obj.chemical_symbol,'id':obj.id})
+        
+            if bonded.__len__() == 0: 
+                return "Atomic Number: %s\nSymbol: %s" % (self.atomic_number, self.chemical_symbol)
+            else:
+                return "%s - %s and is bonded to the following atom(s): \n " % (self.atomic_number, self.chemical_symbol) + ("%(name) | %(atomic) | %(symbol) | %(id)" % bonded)
 
     def __add__(self, other_atom):
         if isinstance(other_atom, Atom) and self.id != other_atom.id:
@@ -93,9 +108,7 @@ class Atom(object):
         return get_number(self)
 
     def num_bonds(self):
-        return self.bonds__len__()
-
-   
+        return self.bonds.__len__()
 
 class Oxygen(Atom):
     MAX_BONDS = 2
@@ -103,12 +116,10 @@ class Oxygen(Atom):
         Atom.__init__(self, "O", [], 8)
     
     def __add__(self,other_atom):
-        if self.get_bonds >= MAX_BONDS:
+        if self.num_bonds() >= self.MAX_BONDS:
             print "Captain! We can't bond anymore!"
         else:
-            Atom.__add__(self,other_atom)
-                 
-
+            Atom.__add__(self,other_atom)            
 
 class Hydrogen(Atom):
     MAX_BONDS = 1
@@ -116,7 +127,14 @@ class Hydrogen(Atom):
         Atom.__init__(self, "H", [], 1)
         
     def __add__(self,other_atom):
-        if self.get_bonds >= MAX_BONDS:
+        if self.num_bonds() >= self.MAX_BONDS:
             print "Captain! We can't bond anymore!"
         else:
             Atom.__add__(self,other_atom)
+
+
+if __name__ == "__main__":
+    """Test code begins here"""
+
+    
+
