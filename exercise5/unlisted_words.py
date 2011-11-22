@@ -33,12 +33,18 @@ from sys import argv
 from pprint import pprint
 
 
-def unlisted_words(sample, reference): 
-    s = (sample.translate(string.maketrans("",""),string.punctuation)).lower().split() #Sample string is cleaned and cut, removing punctuation/symbols, making all characters lowercase then splitting the string into a list based on spacing or newline
-    r = (reference.translate(string.maketrans("",""),string.punctuation)).lower().split()#Reference string is cleaned and cut, removing punctuation/symbols, making all characters lowercase then splitting the string into a list based on spacing or newline
-    return list(set([w for w in s if r.__contains__(w) == False]))  #Using list comprehension identifies if a word in sample is in reference. The list is then converted to a set removing duplicates and transformed again into a list.
+def unlisted_words(sample, reference):
+    #Sample string is cleaned and cut, removing punctuation/symbols, making all characters lowercase then splitting the string into a list based on spacing or newline
+    s = (sample.translate(string.maketrans("",""),string.punctuation)).lower().split() 
+    #Reference string is cleaned and cut, removing punctuation/symbols, making all characters lowercase then splitting the string into a list based on spacing or newline
+    r = (reference.translate(string.maketrans("",""),string.punctuation)).lower().split()
+    #Using list comprehension identifies if a word in sample is in reference. The list is then converted to a set removing duplicates and transformed again into a list.
+    return list(set([w for w in s if r.__contains__(w) == False]))  
     
 if __name__ == "__main__":
+ 
+    #Attempts to get aruments if provided but defualts to test strings if none provided.
+ 
     try: 
         pprint (unlisted_words(argv[1],argv[2]))
     except:
