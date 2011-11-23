@@ -1,39 +1,11 @@
 """
- Assignment for week 7, Tues Nov 22, bring exercise to turn in (hardcopy)
+Daniel Miller
 
- Python Tutorial: Section 9, Classes, except 9.9 - 9.11
- http://docs.python.org/tutorial/classes.html
+Usage:
+Call form main namespace to run test code
 
-Write a module atom.py that defines a class named Atom whose base
-class is object.  An atom has a chemical symbol (a string).  An atom
-can have chemical bonds to other atoms.  When an atom is created, it
-has no bonds to other atoms.  Each atom can have no more than a
-certain maximum number of bonds to other atoms.  When one atom has a
-bond to another atom, the second atom must have a bond back to the
-first.  An atom may have more than one bond to the same atom.  Every
-atom has a method that returns a description string that contains its
-chemical symbol, a unique identity, and the chemical symbols and
-unique identities of all the atoms to which it has bonds.  The
-identity in this string must be different in every atom, and must
-always be the same in a given atom.
-
-The atom module defines two more classes that represent hydrogen and
-oxygen atoms, each with the base class Atom.  Every hydrogen atom has
-the chemical symbol 'H' and has at most one bond.  Every oxygen atom
-has the chemical symbol 'O' and has at most two bonds.
-
-Also in atom.py, write code that tests the atom classes.  This test
-code should execute only when the module is executed at top level, not
-when it is imported.  This test code creates three hydrogen atoms and
-two oxygen atoms.  Then this code creates bonds between one of the
-oxygens and two of the hydrogens (forming a water molecule).  Then it
-prints the description string of every atom.
-
-Hints and reminders:
- This shouldn't take more than a page or two of code
- Use class attributes for data common to all instances of a class
- Instance attributes can be lists, you can have lists of objects
- Turn in what you have on Nov 22, even if it is not finished
+Notes:
+As of this commit, the only thing not working is limiting the bonding to the MAX_BONDS variable
 
 
 #def atomCheck(self, other):
@@ -72,22 +44,24 @@ class Atom(object):
  
     def __str__(self):
         """Prints out the attributes of the Atom and the attributes of the other Atoms that it is bonded to"""
-        bonded = []
-        for name, obj in inspect.getmembers(sys.modules[__name__]):
-            if isinstance(obj, Atom) and obj.id in self.bonds:
-                bonded.append({'name':name,'atomic':obj.atomic_number,'symbol':obj.chemical_symbol,'id':obj.id})
-        
-            if bonded.__len__() == 0: 
-                return "Atomic Number: %s\nSymbol: %s" % (self.atomic_number, self.chemical_symbol)
-            else:
-                return "%s - %s and is bonded to the following atom(s): \n " % (self.atomic_number, self.chemical_symbol) + ("%(name) | %(atomic) | %(symbol) | %(id)" % bonded)
+        if self.bonds.__len__() == 0:
+            return "Atomic Number: %s\nSymbol: %s" % (self.atomic_number, self.chemical_symbol)
+        else:
+            
+            """Found out it was faster to just have a list of objects versus id -> find object based off id."""
+            #bonded = []
+            #for name, obj in inspect.getmembers(sys.modules[__name__]):
+            #    if isinstance(obj, Atom) and obj.id in self.bonds:
+            #        bonded.append({'name':name,'atomic':obj.atomic_number,'symbol':obj.chemical_symbol,'id':obj.id})
+
+            return "Atomic Number: %s\nSymbol: %s\nand is bonded to the following atom(s):\n%s" % (self.atomic_number, self.chemical_symbol, [x for x in self.bonds])
 
     def __add__(self, other_atom):
         if isinstance(other_atom, Atom) and self.id != other_atom.id:
-            self.bonds.append(id(other_atom))
-            other_atom.bonds.append(id(self))
+            self.bonds.append(other_atom)
+            other_atom.bonds.append(self)
         else:
-            print "Type Error! Uh oh"
+            print "Type Error! Uh oh! (Or perhaps another unforeseen error)"
 
     def __cmp__(self, other_atom):
         """Checks atoms based on atomic number"""
@@ -96,6 +70,7 @@ class Atom(object):
             
 
     def get_symbol(self):
+        """returns string symbol"""
         return self.chemical_symbol
 
     def get_bonds(self):
@@ -111,30 +86,42 @@ class Atom(object):
         return self.bonds.__len__()
 
 class Oxygen(Atom):
+    """Oxygen sublcass of Atom superclass"""
     MAX_BONDS = 2
     def __init__(self):
         Atom.__init__(self, "O", [], 8)
     
     def __add__(self,other_atom):
-        if self.num_bonds() >= self.MAX_BONDS:
-            print "Captain! We can't bond anymore!"
-        else:
+        if self.num_bonds() <= self.MAX_BONDS and other_atom.num_bonds() <= other_atom.MAX_BONDS:
             Atom.__add__(self,other_atom)            
+        else:
+            print "Captain! We can't bond anymore!"         
 
 class Hydrogen(Atom):
+    """Hydrogen subclass of Atom superclass"""
     MAX_BONDS = 1
     def __init__(self):
         Atom.__init__(self, "H", [], 1)
         
     def __add__(self,other_atom):
-        if self.num_bonds() >= self.MAX_BONDS:
-            print "Captain! We can't bond anymore!"
+        if self.num_bonds() <= self.MAX_BONDS and other_atom.num_bonds() <= other_atom.MAX_BONDS:
+            Atom.__add__(self,other_atom)            
         else:
-            Atom.__add__(self,other_atom)
+            print "Captain! We can't bond anymore!"
 
 
 if __name__ == "__main__":
     """Test code begins here"""
+    h1 = Hydrogen() 
+    o1 = Oxygen()
+    o2 = Oxygen()
+
+    h1 + o1 
+    h1 + o2
+
+    print h1
+    print o1
+    print o2
 
     
 
