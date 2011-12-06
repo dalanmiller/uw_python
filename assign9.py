@@ -1,10 +1,5 @@
 """
-
-+--
-
-Exercise for week 9, Tues Dec 6, bring exercise to turn in (hardcopy)
-
-Reading: see course web page
+Solution by Daniel Alan Miller
 
 Exercise: Write a decorator that turns a function into a generator.
 Write a module that defines a decorator function named generator,
@@ -37,18 +32,24 @@ This test case should produce this output:
 
 """
 
-
 def generator(fn):
+    """ 
+    Decorator that turns a function which may not support generation of items in some sort of 
+    iterable sequence, into one that can (and will) be iterable. The try / except tree is intended
+    to catch instances where the argument passed into the function being decorated by @generator
+    is or isn't an iterable type. 
+    """
     def yielder(i):
-        try:
+        try: #If i is an iterable type
             for x in i:
                 yield fn(x)
-        except:           
+        except: #If i is not an iterable type  
             yield i
     return yielder
 
 @generator
 def odd(i):
+    "Function which returns 1 if the argument is odd and 0 if the argument is even"""
     return i % 2
 
 if __name__ == "__main__":
