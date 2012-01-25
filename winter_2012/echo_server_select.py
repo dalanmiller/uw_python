@@ -65,7 +65,8 @@ while running:
             print '%s: %s' % (s.getpeername(), data.strip('\n'))
             if data:
                 for x in clients:
-                    x.send(data)
+                    if x not s:
+                        x.send(data)
             else:
                 s.close()
                 print 'closed connection'

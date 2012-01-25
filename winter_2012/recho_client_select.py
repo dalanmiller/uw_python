@@ -46,17 +46,18 @@ while running:
     for x in inputready:
 
         if x == sys.stdin:
-        	if sys.stdin.readline() == 'quit':
+        	msg = sys.stdin.readline()
+        	if msg == 'quit':
         		break
         	else:
 	            # handle standard input
-	            msg = sys.stdin.readline()
+	            #msg = sys.stdin.readline()
 	            #running = False
 	            s.send('%s:%s' % (socket.gethostname(),msg))
 
         elif x: # client socket
             data = x.recv(size)
-            print '%s: %s' % (x.getpeername(), data.strip('\n'))
+            print '%s' % (data)
             if not data:
                 x.close()
                 print 'closed connection'
