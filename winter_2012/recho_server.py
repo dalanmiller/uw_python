@@ -39,9 +39,9 @@ while True:
     while True:
         data = client.recv(size)       
         if not data: break
-        for c in clients:
-            c.send(b'Polo: %s' % data)
-            print "%s to %s" % (data, 'IP') 
+        #for c in clients:
+        #    c.send(b'Polo: %s' % data)
+        #    print "%s to %s" % (data, 'IP') 
         print data
         
     clients.remove(client)

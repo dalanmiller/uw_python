@@ -70,4 +70,3 @@ while running:
                 input.remove(s)
 
 s.close()
-
