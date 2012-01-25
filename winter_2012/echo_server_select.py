@@ -32,7 +32,7 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 server.bind((host,port))
 
-print 'echo_server listening on port %s, to exit type return ' % port
+print 'echo_server connected on port %s, to exit type return ' % (host,port)
 server.listen(backlog)
 
 timeout = 10 # seconds
@@ -63,7 +63,7 @@ while running:
             data = s.recv(size)
             print '%s: %s' % (s.getpeername(), data.strip('\n'))
             if data:
-                s.send('uw-student: %s' % data)
+                s.send(data)
             else:
                 s.close()
                 print 'closed connection'
