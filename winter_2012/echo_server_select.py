@@ -37,9 +37,10 @@ server.listen(backlog)
 
 timeout = 10 # seconds
 input = [server,sys.stdin]
+clients = []
 running = True
 while running:
-    inputready,outputready,exceptready = select.select(input,[],[],timeout)
+    inputready,outputready,exceptready = select.select(input+clients,[],[],timeout)
 
     # timeout
     if not inputready:  
@@ -50,7 +51,7 @@ while running:
         if s == server:
             # handle the server socket
             client, address = server.accept()
-            input.append(client)
+            clients.append(client)
             print 'accepted connection from', address
 
         elif s == sys.stdin:
@@ -63,10 +64,13 @@ while running:
             data = s.recv(size)
             print '%s: %s' % (s.getpeername(), data.strip('\n'))
             if data:
-                s.send(data)
+                for x in clients:
+                    x.send(data)
             else:
                 s.close()
                 print 'closed connection'
-                input.remove(s)
+                client.remove(s)
+
+
 
 s.close()
