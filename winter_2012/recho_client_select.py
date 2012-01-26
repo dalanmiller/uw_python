@@ -33,7 +33,7 @@ s.connect((host,port))
 
 print 'echo_client connected to %s, on port %s, to exit type return ' %(host,port)
 
-timeout = 5 # seconds
+timeout = 30 # seconds
 input = [s, sys.stdin]
 running = True
 while running:
@@ -41,7 +41,7 @@ while running:
 
     # timeout
     if not inputready:  
-        print '%s' % (datetime.datetime.now())
+        print 'Still alive at: %s' % (datetime.datetime.now())
 
     for x in inputready:
 
@@ -57,11 +57,10 @@ while running:
 
         elif x: # client socket
             data = x.recv(size)
-            print '%s' % (data)
+            print '%s' % (data.strip('\n'))
             if not data:
                 x.close()
-                print 'closed connection'
-                input.remove(x)
+                
 
 s.close()
 

@@ -32,7 +32,7 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 server.bind((host,port))
 
-print 'echo_server connected on port %s, to exit type return ' % (host,port)
+print 'echo_server connected on port %s, to exit type return ' % (port)
 server.listen(backlog)
 
 timeout = 10 # seconds
@@ -70,7 +70,7 @@ while running:
             else:
                 s.close()
                 print 'closed connection'
-                client.remove(s)
+                clients.remove(s)
 
 
 
