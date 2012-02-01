@@ -68,7 +68,7 @@ while running:
                     if x not s:
                         x.send(data)
             else:
-                s.close()
+                s.close()   
                 print 'closed connection'
                 clients.remove(s)
 
