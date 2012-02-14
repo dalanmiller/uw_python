@@ -1,3 +1,9 @@
+"""
+This script allows the user to specify a website in which they would like
+scrape to find all the links which contain .py at the end and then download
+each python file to the current directory via wget.
+"""
+
 import requests
 import re
 import os

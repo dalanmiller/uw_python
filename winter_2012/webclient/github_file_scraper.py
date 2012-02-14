@@ -1,3 +1,12 @@
+"""
+This script uses the github API to get the raw data of the index.html 
+for uw_python winter_2012 and then parses the html for links which contain .py,
+it then uses wget (so only works on Linux/Mac?) to download each file to the 
+current directory.
+
+"""
+
+
 import requests 
 import os
 import re
@@ -29,7 +38,7 @@ def scrape_github():
 	for x in results:
 		call(['wget','--progress=dot','--timeout=5','--tries=3',x])
 
-	print "List of files downloaded:"
+	print "List of files downloaded:"__name__
 	pprint([x.split("/")[-1] for x in results])
 
 if __name__ == "__main__":
