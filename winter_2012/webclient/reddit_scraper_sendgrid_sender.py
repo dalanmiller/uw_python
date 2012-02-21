@@ -6,8 +6,8 @@ to my girlfriend.
 Created as a gift on Valentine's Day :) 
 
 """
-
-
+import feedparser
+import random
 import smtplib
 import requests
 import sys
@@ -15,17 +15,19 @@ import json
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from operator import itemgetter
+from credentials import username, password, recipient, pictures_feed, recipient_name
 
-def send_email(content):
+
+def send_email(content, image_url):
 	# Your From email address
-	fromEmail = "dalan.miller@gmail.com.com"
+	fromEmail = "dalan.miller@gmail.com"
 	# Recipient
-	toEmail = "dalan.miller@gmail.com"
+	toEmail = recipient
 	 
 	# Create message container - the correct MIME type is multipart/alternative.
 	msg = MIMEMultipart('alternative')
-	msg['Subject'] = "Awwwwwww Moment of the Day"
-	msg['From'] = fromEmail
+	msg['Subject'] = "%s!, Your Awwwwwww Moment of the Day" % (recipient_name)
+ 	msg['From'] = fromEmail
 	msg['To'] = toEmail
 	 
 	# Create the body of the message (a plain-text and an HTML version).
@@ -34,29 +36,38 @@ def send_email(content):
 	# if the reciever is able to view html emails then only the html
 	# email will be displayed
 	text = "If you see this, I <3 you"
-	html = """\
+	html = u"""
 	<html>
-	  <head></head>
-	  <body>
-	    <p>Haiii Karthika!</p>
-	    <p>I (Dan) would like you to see these top ten /r/awww posts today! 
+	  <head>
 
-	    <div style="margin-top:25px;>
+	  </head>
+	  <body>
+	    <h2>Haiii %s! (My Boo)</h2>
+	    <p>I (Dan) would like you to share with you some the top ten /r/awww posts at this moment!</p>
+	    <p>I wrote this is a Valentine's day present for you, and they might be randomly coming into your mailbox in the future to brighten your day :).</p> 
+
+	    <div style="margin-top:25px;margin-bottom:25px;">
 	    	
 	    	%s
 
 	    </div>
 
-	    <div style="margin-top:10px;">
-	    	<p><3,</p>
+	    <div style="margin-top:15px;margin-bottom:15px;">
+	    <h2> Oh yeah, here's a randomly selected picture of us :) </h2>
+		
+		<img src="%s"/>
 
-	    	<p>Dan</p>
+	    </div>
+
+	    <div style="margin-top:10px;">
+	    	<h3><3,</h3>
+
+	    	<h4>Dan</h4>
 	    </div>
 	  </body>
 	</html>
-	""" % (content)
+	""" % (recipient_name, content, image_url)
 	# Login credentials
-	from credentials import username, password
 
 
 	# Record the MIME types of both parts - text/plain and text/html.
@@ -77,6 +88,7 @@ def send_email(content):
 	# and message to send - here it is sent as one string.
 	s.sendmail(fromEmail, toEmail, msg.as_string())
 	 
+	print html
 	s.quit()
 
 
@@ -92,12 +104,12 @@ if __name__ == '__main__':
 	trs = ""
 	for x in sorted_top:
 		trs += "<tr>"
-		trs += '<td><a href="%s">%s</a></td>' % (''.join(['http://reddit.com',x['permalink']]),x['title'][:50])
-		trs += '<td><a href="%s">%s</a></td>' % (x['url'], x['url'])
+		trs += '<td><a href="%s">%s</a></td>' % (''.join(['http://reddit.com',x['permalink']]),x['title'][:65])
+		trs += '<td><a href="%s">%s</a></td>' % (x['url'], x['url'][:30])
 		trs += '<td>%s</td>' % (x['score'])
 		trs += "</tr>"
 
-	html = """<table>
+	html = """<table class="table">
 	<thead>
 		<tr>
 		<th>Post Title</th>
@@ -110,7 +122,8 @@ if __name__ == '__main__':
 	</tbody>
 	</table>""" % (trs)
 
+	feed = feedparser.parse(pictures_feed)
 
-	print html
+	image_url = random.choice([x['media_content'][0]['url'] for x in feed['entries']])
 
-	#send_email(html)
+	send_email(html, image_url)
