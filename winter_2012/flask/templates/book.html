@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+	{% if i %}
+	<div class="span2">
+		<img src="{{i}}">
+	</div>
+	{% endif %}
+
+	<h2>{{book.title}}</h2>
+	<h3 style="color:dimgrey; font-size:14px;">{{book.author}}</h3>
+	<p>{{book.isbn}}</p>
+	<p>{{book.publisher}}</p>
+	<p>{{d}}</p>
+</div>
+
+
+
+
+{% endblock %}
