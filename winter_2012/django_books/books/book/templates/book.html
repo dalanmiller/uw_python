@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+<div class="row">
+	<div class="span12">
+		{% if book %}
+		
+			<h3>{{book.title}}</h3>
+			<h4>{{book.author}}</h4>
+			{{book.publisher}}
+			{{book.isbn}}
+					
+		{% else %}
+			<h1> Sorry bro, no book found =/ </h1>	
+
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

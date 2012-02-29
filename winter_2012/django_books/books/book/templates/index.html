@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+<div class="row">
+	<div class="span12">
+		<table>
+			<thead>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Publisher</th>
+				<th>ISBN</th>
+			</thead>
+			<tbody>
+				{% for book in book_list %}
+					<tr>
+						<td><a href="/book/{{book.id}}">{{book.title}}</a></td>
+						<td>{{book.author}}</td>
+						<td>{{book.publisher}}</td>
+						<td>{{book.isbn}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
